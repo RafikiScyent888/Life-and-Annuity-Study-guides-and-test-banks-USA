@@ -8,3 +8,12 @@ Study guides and practice tests for state life and health insurance license exam
 - `tools/build.ps1` builds the pages: `powershell -ExecutionPolicy Bypass -File tools\build.ps1`
 
 Question IDs are permanent (saved progress uses them). Never reuse or renumber one.
+
+## Master copies (Claude Docs)
+
+Review and edit content in these Docs, then sync the changes into the repo files:
+
+- [Shared core: life and health](https://claude.ai/artifact/Dwq9yKTYyPECyGk2RJynRN) for `content/`
+- [North Carolina](https://claude.ai/artifact/BRJSr4UdoEMq7T4pHAnQHN) for `states/nc/`
+
+Each Doc has a Study guide tab, a Test bank tab and a Sources & changelog tab.
