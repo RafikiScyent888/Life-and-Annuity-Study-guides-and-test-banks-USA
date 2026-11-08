@@ -1,0 +1,8 @@
+{
+  "product": "Life & Health Exam Prep",
+  "disclaimer": "Not affiliated with any state department of insurance, testing company or regulator. Laws and exam outlines change; confirm details against current law and your state's official candidate handbook.",
+  "comingSoon": [
+    { "code": "TX", "name": "Texas" },
+    { "code": "CA", "name": "California" }
+  ]
+}

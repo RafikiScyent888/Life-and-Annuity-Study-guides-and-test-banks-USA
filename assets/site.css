@@ -1,0 +1,156 @@
+/* Shared look for every page: color and type tokens, the rainbow rule, top nav,
+   masthead, buttons and footer. Layout: one centered column (max 1120px) with a 16px+ gutter. */
+:root {
+  --bg: #fbfaff;
+  --surface: #ffffff;
+  --surface-2: #f3f1fa;
+  --fg: #1d1a2b;
+  --muted: #5f5a73;
+  --line: #e2def0;
+  --red: #e5383b;
+  --orange: #f48c06;
+  --yellow: #f2c200;
+  --green: #2d9d5a;
+  --blue: #1c7ed6;
+  --indigo: #4c3fcf;
+  --violet: #9d4edd;
+  --ok: #217a43;
+  --bad: #c92a3a;
+  --link: #4c3fcf;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Lexend", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14121c; --surface: #1d1a28; --surface-2: #272336; --fg: #f1eff8; --muted: #aaa4c0; --line: #37314b;
+    --red: #ff6b6e; --orange: #ffa94d; --yellow: #ffd43b; --green: #51cf66; --blue: #4dabf7; --indigo: #8c7dff; --violet: #cc8bff;
+    --ok: #63e08a; --bad: #ff7b86; --link: #a99fff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14121c; --surface: #1d1a28; --surface-2: #272336; --fg: #f1eff8; --muted: #aaa4c0; --line: #37314b;
+  --red: #ff6b6e; --orange: #ffa94d; --yellow: #ffd43b; --green: #51cf66; --blue: #4dabf7; --indigo: #8c7dff; --violet: #cc8bff;
+  --ok: #63e08a; --bad: #ff7b86; --link: #a99fff;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.55 var(--body);
+}
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: var(--link); text-underline-offset: 2px; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--c, var(--blue)); outline-offset: 2px; }
+
+/* Seven equal bands, red to violet, across the top of every page */
+.rainbow-rule {
+  height: 6px;
+  background: linear-gradient(90deg,
+    var(--red) 0 14.28%, var(--orange) 14.28% 28.57%, var(--yellow) 28.57% 42.85%,
+    var(--green) 42.85% 57.14%, var(--blue) 57.14% 71.42%, var(--indigo) 71.42% 85.71%, var(--violet) 85.71% 100%);
+}
+
+.topnav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding-block: 14px 0;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--fg);
+  font: 800 1rem var(--display);
+  text-decoration: none;
+}
+.navlinks { display: flex; flex-wrap: wrap; gap: 4px; }
+.navlinks a {
+  padding: 6px 12px;
+  border-radius: 999px;
+  color: var(--fg);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.navlinks a:hover { background: var(--surface-2); }
+.navlinks a[aria-current="page"] { background: var(--fg); color: var(--bg); }
+
+.dot { width: 11px; height: 11px; flex: none; border-radius: 50%; background: var(--c); }
+.dot.rainbow {
+  background: conic-gradient(var(--red), var(--orange), var(--yellow), var(--green), var(--blue), var(--indigo), var(--violet), var(--red));
+}
+
+.masthead { padding-block: 22px 0; }
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+h1 {
+  margin: 0;
+  font: 800 clamp(1.9rem, 4.6vw, 3rem)/1.05 var(--display);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.lede { margin: 10px 0 0; max-width: 62ch; color: var(--muted); }
+
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--fg);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover:not(:disabled) { border-color: var(--fg); }
+.btn.primary { background: var(--fg); border-color: var(--fg); color: var(--bg); }
+.btn.small { padding: 6px 12px; font-size: 0.85rem; }
+.btn.danger { border-color: var(--bad); color: var(--bad); }
+.btn:disabled { opacity: 0.45; cursor: default; }
+
+kbd {
+  padding: 1px 6px;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  background: var(--surface);
+  font: 700 0.78rem var(--body);
+}
+
+.foot { padding-block: 0 32px; color: var(--muted); font-size: 0.85rem; }
+.foot p { margin: 0; max-width: 70ch; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* Shown on a state's pages until its content has been reviewed */
+.review-banner {
+  padding-block: 10px;
+  background: color-mix(in srgb, var(--yellow) 22%, var(--surface));
+  border-bottom: 1px solid var(--line);
+  font-size: 0.9rem;
+}
+.review-banner p { margin: 0; }
