@@ -1,12 +1,11 @@
-/* Home layout: masthead, then two large tiles side by side (stacked on phones), then a short how-to row. */
+/* Home layout: masthead, then large tiles side by side (stacked on phones), then a short how-to row. */
 .home-title { font-size: clamp(2.3rem, 6vw, 4rem); }
 .tiles {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: 20px;
   padding-block: 28px 20px;
 }
-@media (max-width: 760px) { .tiles { grid-template-columns: minmax(0, 1fr); } }
 .tile {
   display: grid;
   grid-template-rows: auto 1fr auto;

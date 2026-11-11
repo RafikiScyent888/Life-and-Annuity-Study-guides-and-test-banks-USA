@@ -64,9 +64,35 @@ foreach ($dir in Get-ChildItem (Join-Path $root 'states') -Directory | Sort-Obje
   $vals.GUIDE_STATE_INTRO = Read-Text "states/$code/guide-intro.html"
   $vals.GUIDE_STATE_LAW = Read-Text "states/$code/guide-law.html"
 
+  # The mock exam page is built only for states with exam blueprints (states/<code>/exams.js)
+  $hasMock = Test-Path (Join-Path $root "states/$code/exams.js")
+  $vals.MOCK_NAV = if ($hasMock) { '<a href="mock-exam.html">Mock exam</a>' } else { '' }
+  $vals.MOCK_TILE = if (-not $hasMock) { '' } else { @"
+    <a class="tile" href="mock-exam.html">
+      <div class="bands" aria-hidden="true">
+        <span style="--c:var(--orange)"></span><span style="--c:var(--blue)"></span><span style="--c:var(--indigo)"></span>
+      </div>
+      <div class="tile-body">
+        <p class="tile-kicker">Then test yourself</p>
+        <h2>Mock exam</h2>
+        <p>A timed exam built like the real one, with the same number of questions per section. No answers until you submit, then a score for every section.</p>
+        <ul class="facts">
+          <li>55 questions</li>
+          <li>69 minutes</li>
+          <li>70% to pass</li>
+        </ul>
+      </div>
+      <div class="tile-foot">
+        <span class="go">Start a mock exam &rarr;</span>
+        <span class="progress-note" id="mock-note">Life or accident &amp; health</span>
+      </div>
+    </a>
+"@ }
+
   Write-Text "states/$code/index.html" (Fill (Read-Text 'templates/state-home.html') $vals)
   Write-Text "states/$code/study-guide.html" (Fill (Read-Text 'templates/study-guide.html') $vals)
   Write-Text "states/$code/practice-test.html" (Fill (Read-Text 'templates/practice-test.html') $vals)
+  if ($hasMock) { Write-Text "states/$code/mock-exam.html" (Fill (Read-Text 'templates/mock-exam.html') $vals) }
 
   $label = if ($state.status -eq 'ready') { 'Ready' } else { 'In review' }
   $cards += "    <a class=`"state-card`" href=`"states/$code/`"><span class=`"abbr`">$($state.code)</span><h2>$(Esc $state.name)</h2><p>Life &amp; health &middot; $($all.Count) questions</p><span class=`"status $($state.status)`">$label</span></a>"

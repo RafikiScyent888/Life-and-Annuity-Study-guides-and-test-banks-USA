@@ -20,6 +20,7 @@
     <a href="./" aria-current="page">North Carolina</a>
     <a href="study-guide.html">Study guide</a>
     <a href="practice-test.html">Practice test</a>
+    <a href="mock-exam.html">Mock exam</a>
   </div>
 </nav>
 <div class="review-banner"><div class="wrap"><p><strong>In review.</strong> North Carolina's content is being checked by licensed professionals before release.</p></div></div>
@@ -54,15 +55,15 @@
 
     <a class="tile" href="practice-test.html">
       <div class="bands" aria-hidden="true">
-        <span style="--c:var(--red);--w:50"></span><span style="--c:var(--orange);--w:43"></span><span style="--c:var(--yellow);--w:28"></span><span style="--c:var(--green);--w:61"></span><span style="--c:var(--blue);--w:53"></span><span style="--c:var(--indigo);--w:37"></span><span style="--c:var(--violet);--w:25"></span>
+        <span style="--c:var(--red);--w:52"></span><span style="--c:var(--orange);--w:112"></span><span style="--c:var(--yellow);--w:45"></span><span style="--c:var(--green);--w:61"></span><span style="--c:var(--blue);--w:53"></span><span style="--c:var(--indigo);--w:37"></span><span style="--c:var(--violet);--w:25"></span>
       </div>
       <div class="tile-body">
         <p class="tile-kicker">Then practice</p>
         <h2>Practice test</h2>
         <p>Seven color-coded parts. Every answer shows whether you're right, why, and which study guide topic to review. North Carolina law questions link to their source.</p>
         <ul class="facts">
-          <li>297 questions</li>
-          <li>121 life</li>
+          <li>385 questions</li>
+          <li>209 life</li>
           <li>114 health</li>
           <li>62 NC law</li>
         </ul>
@@ -70,6 +71,25 @@
       <div class="tile-foot">
         <span class="go">Start the practice test →</span>
         <span class="progress-note" id="progress">Progress saves in this browser</span>
+      </div>
+    </a>
+    <a class="tile" href="mock-exam.html">
+      <div class="bands" aria-hidden="true">
+        <span style="--c:var(--orange)"></span><span style="--c:var(--blue)"></span><span style="--c:var(--indigo)"></span>
+      </div>
+      <div class="tile-body">
+        <p class="tile-kicker">Then test yourself</p>
+        <h2>Mock exam</h2>
+        <p>A timed exam built like the real one, with the same number of questions per section. No answers until you submit, then a score for every section.</p>
+        <ul class="facts">
+          <li>55 questions</li>
+          <li>69 minutes</li>
+          <li>70% to pass</li>
+        </ul>
+      </div>
+      <div class="tile-foot">
+        <span class="go">Start a mock exam &rarr;</span>
+        <span class="progress-note" id="mock-note">Life or accident &amp; health</span>
       </div>
     </a>
   </div>
@@ -81,7 +101,7 @@
 
   <ol class="how">
     <li style="--c:var(--red)"><span><strong>Read a topic</strong>Each topic has a color. Watch for the “Watch out” boxes.</span></li>
-    <li style="--c:var(--green)"><span><strong>Practice that part</strong>Pick the matching color in the test, or run all 297.</span></li>
+    <li style="--c:var(--green)"><span><strong>Practice that part</strong>Pick the matching color in the test, or run all 385.</span></li>
     <li style="--c:var(--violet)"><span><strong>Retake your misses</strong>The retake test brings back only the questions you got wrong, then shows which topics to study.</span></li>
   </ol>
 </main>
@@ -96,7 +116,7 @@ try {
   const answers = s && s.answers ? Object.values(s.answers) : [];
   if (answers.length) {
     const right = answers.filter(a => a.correct).length;
-    document.getElementById("progress").textContent = `${answers.length} of 297 answered · ${right} right`;
+    document.getElementById("progress").textContent = `${answers.length} of 385 answered · ${right} right`;
   }
   // Point to the retake test when there are missed questions or a retake in progress
   const missed = answers.filter(a => !a.correct).length;
@@ -110,6 +130,18 @@ try {
     document.getElementById("retake-text").textContent = "Retake just those, then see which study guide topics need more work.";
     if (inProgress) document.getElementById("retake-link").textContent = "Resume the retake →";
     document.getElementById("retake-banner").hidden = false;
+  }
+} catch (e) { /* storage unavailable */ }
+// Show the latest mock exam score on the mock tile
+try {
+  const note = document.getElementById("mock-note");
+  const m = JSON.parse(localStorage.getItem("lhep-nc-mock-v1") || "null");
+  if (note && m) {
+    if (m.current) note.textContent = "A mock exam is in progress";
+    else if (Array.isArray(m.history) && m.history.length) {
+      const r = m.history[0];
+      note.textContent = `Last mock: ${r.score}% · ${r.pass ? "pass" : "not yet passing"}`;
+    }
   }
 } catch (e) { /* storage unavailable */ }
 </script>

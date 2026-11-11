@@ -1,0 +1,98 @@
+/* Mock exam page: start cards, chosen answers, flags, the timer and the diagnostic report.
+   Builds on quiz.css for the question card, options, grid and results lists. */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+#app { padding-block: 18px 40px; }
+#app > .layout { padding-block: 0; }
+
+/* Start page */
+.mock-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 16px;
+}
+.exam-card {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.exam-card::before { content: ""; display: block; height: 7px; background: var(--c); }
+.ec-body { padding: 18px 20px 6px; }
+.ec-body .eyebrow { color: var(--c); }
+.exam-card h2 { margin: 2px 0 0; font: 800 1.35rem/1.2 var(--display); }
+.ec-facts { margin: 6px 0 12px; color: var(--muted); font-size: 0.92rem; }
+.ec-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.ec-table td { padding: 7px 0; border-top: 1px solid var(--line); vertical-align: top; }
+.ec-table td.num { padding-left: 12px; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ec-foot { padding: 12px 20px 20px; }
+
+.rules, .history {
+  margin-top: 22px;
+  padding: 18px 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.rules h2, .history h2 { margin: 0 0 8px; font: 800 1.1rem var(--display); }
+.rules ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; max-width: 78ch; }
+.hist-wrap { overflow-x: auto; }
+.hist { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.hist th, .hist td { padding: 8px 10px 8px 0; text-align: left; border-top: 1px solid var(--line); white-space: nowrap; }
+.hist th { border-top: 0; color: var(--muted); font-weight: 600; font-size: 0.8rem; }
+.hist .num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; padding-right: 16px; }
+
+/* Taking the exam */
+.opt.is-picked { border-color: var(--c); background: color-mix(in srgb, var(--c) 14%, var(--surface)); }
+.opt.is-picked .key { background: var(--c); color: var(--surface); }
+.opt.is-picked .mark { color: var(--fg); }
+.flag[aria-pressed="true"] {
+  border-color: var(--orange);
+  background: color-mix(in srgb, var(--orange) 16%, var(--surface));
+}
+.timer, .timer-inline { font-variant-numeric: tabular-nums; }
+.timer.warn, .timer-inline.warn { color: var(--orange); }
+.timer.low, .timer-inline.low { color: var(--bad); }
+.mock-grid .qcell { border-color: var(--c); position: relative; }
+.mock-grid .qcell.answered { background: color-mix(in srgb, var(--c) 30%, var(--surface)); }
+.qcell.flagged::after, .grid-key .k.flagged {
+  content: "";
+  position: absolute;
+  top: -5px; right: -5px;
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: var(--orange);
+  border: 2px solid var(--surface);
+}
+.grid-key { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 10px 0 0; font-size: 0.8rem; color: var(--muted); }
+.grid-key span { display: inline-flex; align-items: center; gap: 6px; }
+.grid-key .k { position: relative; display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 2px solid var(--c); }
+.grid-key .k.answered { background: color-mix(in srgb, var(--c) 30%, var(--surface)); }
+.grid-key .k.flagged { position: static; border-color: var(--surface); }
+.confirm-box { display: grid; gap: 8px; }
+.confirm-box .sub { margin: 0; }
+
+/* Report */
+.verdict {
+  display: inline-block;
+  align-self: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font: 800 0.95rem var(--display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.verdict.small { padding: 2px 9px; font-size: 0.75rem; }
+.verdict.pass { background: color-mix(in srgb, var(--ok) 16%, var(--surface)); color: var(--ok); }
+.verdict.fail { background: color-mix(in srgb, var(--bad) 14%, var(--surface)); color: var(--bad); }
+.diag { display: grid; gap: 14px; max-width: 760px; }
+.diag-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 5px 12px; align-items: baseline; }
+.diag-name { font-size: 0.92rem; }
+.diag-num { font-size: 0.88rem; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.diag-bar { grid-column: 1 / -1; position: relative; height: 14px; border-radius: 7px; background: var(--surface-2); }
+.diag-bar span { display: block; height: 100%; max-width: 100%; border-radius: 7px; background: var(--c); }
+.diag-bar .pass-line { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; background: var(--fg); }

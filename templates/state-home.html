@@ -20,6 +20,7 @@
     <a href="./" aria-current="page">{{STATE_NAME}}</a>
     <a href="study-guide.html">Study guide</a>
     <a href="practice-test.html">Practice test</a>
+    {{MOCK_NAV}}
   </div>
 </nav>
 {{REVIEW_BANNER}}
@@ -72,6 +73,7 @@
         <span class="progress-note" id="progress">Progress saves in this browser</span>
       </div>
     </a>
+{{MOCK_TILE}}
   </div>
 
   <div class="retake-banner" id="retake-banner" hidden>
@@ -110,6 +112,18 @@ try {
     document.getElementById("retake-text").textContent = "Retake just those, then see which study guide topics need more work.";
     if (inProgress) document.getElementById("retake-link").textContent = "Resume the retake →";
     document.getElementById("retake-banner").hidden = false;
+  }
+} catch (e) { /* storage unavailable */ }
+// Show the latest mock exam score on the mock tile
+try {
+  const note = document.getElementById("mock-note");
+  const m = JSON.parse(localStorage.getItem("lhep-{{STATE_LOWER}}-mock-v1") || "null");
+  if (note && m) {
+    if (m.current) note.textContent = "A mock exam is in progress";
+    else if (Array.isArray(m.history) && m.history.length) {
+      const r = m.history[0];
+      note.textContent = `Last mock: ${r.score}% · ${r.pass ? "pass" : "not yet passing"}`;
+    }
   }
 } catch (e) { /* storage unavailable */ }
 </script>
